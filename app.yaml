@@ -1,0 +1,22 @@
+# This is the yaml file for flexible environment
+runtime: python
+env: flex
+# looks like running daphne returns 502, on local server daphne works fine :(
+# entrypoint: gunicorn -b :$PORT django_chat.wsgi & daphne -p $8001 django_chat.asgi:application
+# entrypoint: gunicorn -b :$PORT django_chat.wsgi
+# entrypoint: daphne -p $PORT django_chat.asgi:application
+entrypoint: uvicorn --host 0.0.0.0 --port $PORT django_chat.asgi:application
+
+runtime_config:
+  python_version: 3
+
+handlers:
+- url: /.*
+  script: main.app
+
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10

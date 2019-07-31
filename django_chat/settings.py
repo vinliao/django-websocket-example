@@ -42,7 +42,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = [APP_ENGINE_ADDRESS, 'localhost']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -158,11 +157,18 @@ STATIC_URL = '/static/'
 
 # Channels
 ASGI_APPLICATION = 'django_chat.routing.application'
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-    },
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
+# Okay this is confirmed: redis is not necessary to runwebsocket
+CHANNEL_LAYERS={
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+     }
 }
